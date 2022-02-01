@@ -24,6 +24,9 @@
     <ClCompile Include="chatMember.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="chat.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="user.h">
@@ -33,6 +36,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="chatMember.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="chat.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
