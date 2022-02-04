@@ -153,15 +153,30 @@ void Chat::run()
 					}
 					std::cout << _members[i].getName() << std::endl;
 				}
-				std::cout << "Select user name: ";
+				std::cout << "Select user name or enter -all to send to everyone: ";
 				std::string name;
 				std::cin >> name;
 				std::cout << "Write message: ";
 				std::string msg;
 				std::cin >> msg;
-				if (sendMessage(name, msg) == 0)
+				if (name.compare("-all") == 0)
 				{
-					std::cout << "Successfully sent" << std::endl << std::endl;
+					for (int i = 0; i < _members.getLength(); ++i)
+					{
+						if (i == loggedUserIndex)
+						{
+							continue;
+						}
+						sendMessage(_members[i].getName(), msg);
+					}
+					std::cout << "Successfully sent to all members" << std::endl << std::endl;
+				}
+				else
+				{
+					if (sendMessage(name, msg) == 0)
+					{
+						std::cout << "Successfully sent" << std::endl << std::endl;
+					}
 				}
 				break;
 			}
