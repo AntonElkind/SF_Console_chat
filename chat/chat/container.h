@@ -16,7 +16,7 @@ public:
 	T& operator[](int index);
 
 	int getLength();
-	void add(T element);
+	void add(const T& element);
 };
 
 class BadRange : public std::exception
@@ -111,7 +111,7 @@ int Container<T>::getLength()
 }
 
 template <typename T>
-void  Container<T>::add(T element)
+void  Container<T>::add(const T& element)
 {
 	T* dataTemp = new T[_length + 1];
 	int i;
