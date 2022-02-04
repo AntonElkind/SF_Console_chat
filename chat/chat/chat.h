@@ -11,11 +11,12 @@ public:
 	int logIn();
 	void logOut();
 	int sendMessage(const std::string& to, const std::string& text);
+	void run();
 
 private:
 	Container<ChatMember> _members;
 	int loggedUserIndex;
 
 	int nameToID(const std::string& name);
-
+	void prompt();
 };
