@@ -1,4 +1,5 @@
 #pragma once
+#include <iostream>
 #include <exception>
 
 template <typename T>
@@ -113,7 +114,16 @@ int Container<T>::getLength()
 template <typename T>
 void  Container<T>::add(const T& element)
 {
-	T* dataTemp = new T[_length + 1];
+	T* dataTemp(nullptr);
+	try
+	{
+		dataTemp = new T[_length + 1];
+	}
+	catch (std::bad_alloc& ba)
+	{
+		std::cout << "bad_alloc caught!" << std::endl;
+		std::cout << ba.what() << std::endl;
+	}
 	int i;
 	for (i = 0; i < _length; ++i)
 	{
