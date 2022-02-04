@@ -124,6 +124,10 @@ void  Container<T>::add(const T& element)
 		std::cout << "bad_alloc caught!" << std::endl;
 		std::cout << ba.what() << std::endl;
 	}
+	if (dataTemp == nullptr)
+	{
+		return;
+	}
 	int i;
 	for (i = 0; i < _length; ++i)
 	{
