@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
+#include <vector>
 #include "user.h"
-#include "container.h"
 
 struct Message
 {
@@ -24,6 +24,6 @@ public:
 
 private:
 	int _id;
-	Container<Message> _mailBox;
+	std::vector<Message> _mailBox;
 };
 

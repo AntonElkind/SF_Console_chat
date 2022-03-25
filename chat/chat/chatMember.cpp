@@ -22,17 +22,17 @@ int ChatMember::getID()
 void ChatMember::putMessage(const std::string& sender, const std::string& text)
 {
 	Message msg{ sender, text };
-	_mailBox.add(msg);
+	_mailBox.push_back(msg);
 }
 
 void ChatMember::printAll()
 {
-	if (_mailBox.getLength() == 0)
+	if (_mailBox.empty() == true)
 	{
 		std::cout << "Mailbox empty" << std::endl << std::endl;
 		return;
 	}
-	for (int i = 0; i < _mailBox.getLength(); ++i)
+	for (int i = 0; i < _mailBox.size(); ++i)
 	{
 		std::cout << "From:    " << _mailBox[i].sender << std::endl;
 		std::cout << "Message: " << _mailBox[i].text << std::endl << std::endl;
@@ -41,11 +41,11 @@ void ChatMember::printAll()
 
 void ChatMember::printLast()
 {
-	if (_mailBox.getLength() == 0)
+	if (_mailBox.empty() == true)
 	{
 		std::cout << "Mailbox empty" << std::endl << std::endl;
 		return;
 	}
-	std::cout << "From:    " << _mailBox[_mailBox.getLength() - 1].sender << std::endl;
-	std::cout << "Message: " << _mailBox[_mailBox.getLength() - 1].text << std::endl << std::endl;
+	std::cout << "From:    " << _mailBox[_mailBox.size() - 1].sender << std::endl;
+	std::cout << "Message: " << _mailBox[_mailBox.size() - 1].text << std::endl << std::endl;
 }
