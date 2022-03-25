@@ -2,7 +2,7 @@
 #include <iostream>
 #include <string>
 
-Chat::Chat() : loggedUserIndex(-1)
+Chat::Chat() : _loggedUserIndex(-1)
 {
 }
 
@@ -55,7 +55,7 @@ int Chat::logIn()
 			if (userIn.compare(_members[i].getPassword()) == 0)
 			{
 				_members[i].setOnline(true);
-				loggedUserIndex = i;
+				_loggedUserIndex = i;
 				return 0;
 			}
 			std::cout << "Wrong password!" << std::endl;
@@ -68,8 +68,8 @@ int Chat::logIn()
 
 void Chat::logOut()
 {
-	_members[loggedUserIndex].setOnline(false);
-	loggedUserIndex = -1;
+	_members[_loggedUserIndex].setOnline(false);
+	_loggedUserIndex = -1;
 }
 
 int Chat::sendMessage(const std::string& to, const std::string& text)
@@ -80,7 +80,7 @@ int Chat::sendMessage(const std::string& to, const std::string& text)
 		std::cout << "User does not exist" << std::endl;
 		return -1;
 	}
-	_members[id].putMessage(_members[loggedUserIndex].getName(), text);
+	_members[id].putMessage(_members[_loggedUserIndex].getName(), text);
 	return 0;
 }
 
@@ -97,21 +97,21 @@ void Chat::run()
 		{
 			userIn.clear();
 		}
-		if (loggedUserIndex < 0)
+		if (_loggedUserIndex < 0)
 		{
 			switch (userIn[0])
 			{
 			case 'r':
 				if (registration() == 0)
 				{
-					std::cout << "Succesfully registered" << std::endl << std::endl;
+					std::cout << "Successfully registered" << std::endl << std::endl;
 				}
 				break;
 
 			case 'l':
 				if (logIn() == 0)
 				{
-					std::cout << "Succesfully logged in" << std::endl << std::endl;
+					std::cout << "Successfully logged in" << std::endl << std::endl;
 				}
 				else
 				{
@@ -147,7 +147,7 @@ void Chat::run()
 				std::cout << "Registered users:" << std::endl;
 				for (int i = 0; i < _members.getLength(); ++i)
 				{
-					if (i == loggedUserIndex)
+					if (i == _loggedUserIndex)
 					{
 						continue;
 					}
@@ -163,7 +163,7 @@ void Chat::run()
 				{
 					for (int i = 0; i < _members.getLength(); ++i)
 					{
-						if (i == loggedUserIndex)
+						if (i == _loggedUserIndex)
 						{
 							continue;
 						}
@@ -182,12 +182,12 @@ void Chat::run()
 			}
 			case 'l':
 				std::cout << "Last received message:" << std::endl;
-				_members[loggedUserIndex].printLast();
+				_members[_loggedUserIndex].printLast();
 				break;
 
 			case 'a':
-				std::cout << "Indox:" << std::endl;
-				_members[loggedUserIndex].printAll();
+				std::cout << "Inbox:" << std::endl;
+				_members[_loggedUserIndex].printAll();
 				break;
 
 			default:
@@ -201,7 +201,7 @@ int Chat::nameToID(const std::string& name)
 {
 	for (int i = 0; i < _members.getLength(); ++i)
 	{
-		if (i == loggedUserIndex)
+		if (i == _loggedUserIndex)
 		{
 			continue;
 		}
@@ -215,11 +215,11 @@ int Chat::nameToID(const std::string& name)
 
 void Chat::prompt()
 {
-	if (loggedUserIndex < 0)
+	if (_loggedUserIndex < 0)
 	{
 		std::cout << "To registration enter 'r'," << std::endl;
 		std::cout << "to log in enter 'l'," << std::endl;
-		std::cout << "to exit in enter 'x'" << std::endl;
+		std::cout << "to exit enter 'x'" << std::endl;
 	}
 	else
 	{

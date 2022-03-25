@@ -15,7 +15,7 @@ public:
 
 private:
 	Container<ChatMember> _members;
-	int loggedUserIndex;
+	int _loggedUserIndex;
 
 	int nameToID(const std::string& name);
 	void prompt();
