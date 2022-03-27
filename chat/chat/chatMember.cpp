@@ -32,10 +32,10 @@ void ChatMember::printAll()
 		std::cout << "Mailbox empty" << std::endl << std::endl;
 		return;
 	}
-	for (int i = 0; i < _mailBox.size(); ++i)
+	for (const auto& msg : _mailBox)
 	{
-		std::cout << "From:    " << _mailBox[i].sender << std::endl;
-		std::cout << "Message: " << _mailBox[i].text << std::endl << std::endl;
+		std::cout << "From:    " << msg.sender << std::endl;
+		std::cout << "Message: " << msg.text << std::endl << std::endl;
 	}
 }
 
@@ -46,6 +46,6 @@ void ChatMember::printLast()
 		std::cout << "Mailbox empty" << std::endl << std::endl;
 		return;
 	}
-	std::cout << "From:    " << _mailBox[_mailBox.size() - 1].sender << std::endl;
-	std::cout << "Message: " << _mailBox[_mailBox.size() - 1].text << std::endl << std::endl;
+	std::cout << "From:    " << _mailBox.back().sender << std::endl;
+	std::cout << "Message: " << _mailBox.back().text << std::endl << std::endl;
 }
