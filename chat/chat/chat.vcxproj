@@ -142,11 +142,13 @@
     <ClCompile Include="chat.cpp" />
     <ClCompile Include="chatMember.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="sha1.cpp" />
     <ClCompile Include="user.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="chat.h" />
     <ClInclude Include="chatMember.h" />
+    <ClInclude Include="sha1.h" />
     <ClInclude Include="user.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
