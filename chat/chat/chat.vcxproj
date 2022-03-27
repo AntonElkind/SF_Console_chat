@@ -147,7 +147,6 @@
   <ItemGroup>
     <ClInclude Include="chat.h" />
     <ClInclude Include="chatMember.h" />
-    <ClInclude Include="container.h" />
     <ClInclude Include="user.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
