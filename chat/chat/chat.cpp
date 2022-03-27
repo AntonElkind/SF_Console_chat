@@ -2,8 +2,9 @@
 #include <iostream>
 #include <string>
 
-Chat::Chat() : _loggedUserIndex(-1)
+Chat::Chat()
 {
+	_loggedUserEmail.clear();
 }
 
 int Chat::registration()
@@ -13,14 +14,12 @@ int Chat::registration()
 
 	std::cout << "Enter your email: ";
 	std::cin >> userIn;
-	for (int i = 0; i < _members.getLength(); ++i)
+	auto it = _members.find(userIn);
+	if (it != _members.end())
 	{
-		if (userIn.compare(_members[i].getEmail()) == 0)
-		{
-			std::cout << "User with email " << userIn << " already exists" << std::endl;
-			std::cout << "Registration aborted" << std::endl << std::endl;
-			return -1;
-		}
+		std::cout << "User with email " << userIn << " already exists" << std::endl;
+		std::cout << "Registration aborted" << std::endl << std::endl;
+		return -1;
 	}
 	tempMember.setEmail(userIn);
 
@@ -34,8 +33,8 @@ int Chat::registration()
 	std::cin >> userIn;
 	tempMember.setPassword(userIn);
 	
-	tempMember.setID(_members.getLength());
-	_members.add(tempMember);
+	tempMember.setID(_members.size());
+	_members.insert({ tempMember.getEmail(), tempMember });
 	return 0;
 }
 
@@ -45,22 +44,20 @@ int Chat::logIn()
 
 	std::cout << "Enter email: ";
 	std::cin >> userIn;
-	for (int i = 0; i < _members.getLength(); ++i)
+	auto it = _members.find(userIn);
+	if (it != _members.end())
 	{
-		if (userIn.compare(_members[i].getEmail()) == 0)
+		userIn.clear();
+		std::cout << "Enter password: ";
+		std::cin >> userIn;
+		if (userIn.compare(it->second.getPassword()) == 0)
 		{
-			userIn.clear();
-			std::cout << "Enter password: ";
-			std::cin >> userIn;
-			if (userIn.compare(_members[i].getPassword()) == 0)
-			{
-				_members[i].setOnline(true);
-				_loggedUserIndex = i;
-				return 0;
-			}
-			std::cout << "Wrong password!" << std::endl;
-			return -1;
+			it->second.setOnline(true);
+			_loggedUserEmail = it->first;
+			return 0;
 		}
+		std::cout << "Wrong password!" << std::endl;
+		return -1;
 	}
 	std::cout << "User with email " << userIn << " is not registered" << std::endl;
 	return -1;
@@ -68,20 +65,22 @@ int Chat::logIn()
 
 void Chat::logOut()
 {
-	_members[_loggedUserIndex].setOnline(false);
-	_loggedUserIndex = -1;
+	_members[_loggedUserEmail].setOnline(false);
+	_loggedUserEmail.clear();
 }
 
 int Chat::sendMessage(const std::string& to, const std::string& text)
 {
-	int id = nameToID(to);
-	if (id < 0)
+	for (auto& it : _members)
 	{
-		std::cout << "User does not exist" << std::endl;
-		return -1;
+		if (to.compare(it.second.getName()) == 0)
+		{
+			it.second.putMessage(_loggedUserEmail, text);
+			return 0;
+		}
 	}
-	_members[id].putMessage(_members[_loggedUserIndex].getName(), text);
-	return 0;
+	std::cout << "User does not exist" << std::endl;
+	return -1;
 }
 
 void Chat::run()
@@ -97,7 +96,7 @@ void Chat::run()
 		{
 			userIn.clear();
 		}
-		if (_loggedUserIndex < 0)
+		if (_loggedUserEmail.empty())
 		{
 			switch (userIn[0])
 			{
@@ -139,19 +138,19 @@ void Chat::run()
 
 			case 's':
 			{
-				if (_members.getLength() == 1)
+				if (_members.size() == 1)
 				{
 					std::cout << "Only you in this chat :(" << std::endl << std::endl;
 					break;
 				}
 				std::cout << "Registered users:" << std::endl;
-				for (int i = 0; i < _members.getLength(); ++i)
+				for (auto& it : _members)
 				{
-					if (i == _loggedUserIndex)
+					if (it.first == _loggedUserEmail)
 					{
 						continue;
 					}
-					std::cout << _members[i].getName() << std::endl;
+					std::cout << it.second.getName() << std::endl;
 				}
 				std::cout << "Select user name or enter -all to send to everyone: ";
 				std::string name;
@@ -161,13 +160,13 @@ void Chat::run()
 				std::cin >> msg;
 				if (name.compare("-all") == 0)
 				{
-					for (int i = 0; i < _members.getLength(); ++i)
+					for (auto& it : _members)
 					{
-						if (i == _loggedUserIndex)
+						if (it.first == _loggedUserEmail)
 						{
 							continue;
 						}
-						sendMessage(_members[i].getName(), msg);
+						sendMessage(it.second.getName(), msg);
 					}
 					std::cout << "Successfully sent to all members" << std::endl << std::endl;
 				}
@@ -181,15 +180,19 @@ void Chat::run()
 				break;
 			}
 			case 'l':
+			{
 				std::cout << "Last received message:" << std::endl;
-				_members[_loggedUserIndex].printLast();
+				auto member = _members.find(_loggedUserEmail);
+				member->second.printLast();
 				break;
-
+			}
 			case 'a':
+			{
 				std::cout << "Inbox:" << std::endl;
-				_members[_loggedUserIndex].printAll();
+				auto member = _members.find(_loggedUserEmail);
+				member->second.printAll();
 				break;
-
+			}
 			default:
 				std::cout << "Unknown command" << std::endl << std::endl;
 			}
@@ -197,25 +200,9 @@ void Chat::run()
 	}
 }
 
-int Chat::nameToID(const std::string& name)
-{
-	for (int i = 0; i < _members.getLength(); ++i)
-	{
-		if (i == _loggedUserIndex)
-		{
-			continue;
-		}
-		if (name.compare(_members[i].getName()) == 0)
-		{
-			return _members[i].getID();
-		}
-	}
-	return -1;
-}
-
 void Chat::prompt()
 {
-	if (_loggedUserIndex < 0)
+	if (_loggedUserEmail.empty())
 	{
 		std::cout << "To registration enter 'r'," << std::endl;
 		std::cout << "to log in enter 'l'," << std::endl;

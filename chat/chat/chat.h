@@ -1,5 +1,5 @@
 #pragma once
-#include "container.h"
+#include <unordered_map>
 #include "chatMember.h"
 
 class Chat
@@ -14,9 +14,8 @@ public:
 	void run();
 
 private:
-	Container<ChatMember> _members;
-	int _loggedUserIndex;
+	std::unordered_map<std::string, ChatMember> _members;
+	std::string _loggedUserEmail;
 
-	int nameToID(const std::string& name);
 	void prompt();
 };
