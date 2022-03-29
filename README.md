@@ -1,5 +1,11 @@
 # Console chat
-##### Skill Factory Console chat project. Final project after module 9.
+#### Skill Factory Console chat final project
+##### Project state after module 16
++ The custom container has been replaced with a <vector> for mailboxes
++ The custom container has been replaced with an <unordered_map> for chat members
++ Implemented SHA-1 encryption for user passwords
+
+##### Project state after module 9
 This project provides basic chat functionality. There are main menu for guest users and one sub-menu for
 successfully registered users:
 
