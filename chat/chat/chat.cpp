@@ -50,7 +50,7 @@ int Chat::logIn()
 		userIn.clear();
 		std::cout << "Enter password: ";
 		std::cin >> userIn;
-		if (userIn.compare(it->second.getPassword()) == 0)
+		if (it->second.checkPassword(userIn) == true)
 		{
 			it->second.setOnline(true);
 			_loggedUserEmail = it->first;
