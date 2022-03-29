@@ -20,4 +20,4 @@ const uint H[5] =
     0xC3D2E1F0
 };
 
-uint* sha1(char* message, uint msize_bytes);
+uint* sha1(const char* message, uint msize_bytes);

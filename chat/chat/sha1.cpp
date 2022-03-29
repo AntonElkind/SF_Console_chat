@@ -14,7 +14,7 @@ static uint bring_to_human_view(uint val)
         ((val & 0xFF000000) >> 24);
 }
 
-uint* sha1(char* message, uint msize_bytes)
+uint* sha1(const char* message, uint msize_bytes)
 {
     //инициализация
     uint A = H[0];
