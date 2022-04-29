@@ -116,7 +116,7 @@ void NetWriter::sendArray(const char* sendbuf, int len)
         WSACleanup();
         return;
     }
-    printf("Bytes Sent: %ld\n", iResult);
+    //printf("Bytes Sent: %ld\n", iResult);
 }
 
 void NetWriter::close()
@@ -124,6 +124,10 @@ void NetWriter::close()
     char recvbuf[DEFAULT_BUFLEN];
     int iResult;
     int recvbuflen = DEFAULT_BUFLEN;
+    if (isConnected == false)
+    {
+        return;
+    }
     // shutdown the connection since no more data will be sent
     iResult = shutdown(ConnectSocket, SD_SEND);
     if (iResult == SOCKET_ERROR) 
