@@ -1,6 +1,7 @@
 #pragma once
 #include <unordered_map>
 #include "chatMember.h"
+#include "netWriter.h"
 
 class Chat
 {
@@ -18,4 +19,5 @@ private:
 	std::string _loggedUserEmail;
 
 	void prompt();
+	NetWriter logger;
 };

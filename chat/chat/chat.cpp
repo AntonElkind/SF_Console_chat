@@ -35,6 +35,7 @@ int Chat::registration()
 	
 	tempMember.setID(_members.size());
 	_members.insert({ tempMember.getEmail(), tempMember });
+	logger.write("User " + tempMember.getName() + " has been registered.");
 	return 0;
 }
 
@@ -54,6 +55,7 @@ int Chat::logIn()
 		{
 			it->second.setOnline(true);
 			_loggedUserEmail = it->first;
+			logger.write("User " + it->second.getName() + " logged in.");
 			return 0;
 		}
 		std::cout << "Wrong password!" << std::endl;
@@ -66,6 +68,7 @@ int Chat::logIn()
 void Chat::logOut()
 {
 	_members[_loggedUserEmail].setOnline(false);
+	logger.write("User " + _members[_loggedUserEmail].getName() + " logged out.");
 	_loggedUserEmail.clear();
 }
 
@@ -76,6 +79,8 @@ int Chat::sendMessage(const std::string& to, const std::string& text)
 		if (to.compare(it.second.getName()) == 0)
 		{
 			it.second.putMessage(_loggedUserEmail, text);
+			logger.write("Message from " + _members[_loggedUserEmail].getName() + 
+				" to " + to + " has been sent.");
 			return 0;
 		}
 	}
@@ -87,6 +92,8 @@ void Chat::run()
 {
 	std::string userIn;
 	bool chatRunning = true;
+
+	logger.write("Chat is running...");
 
 	while (chatRunning)
 	{
@@ -120,6 +127,7 @@ void Chat::run()
 
 			case 'x':
 				std::cout << "Exit" << std::endl;
+				logger.write("Chat has been closed");
 				chatRunning = false;
 				break;
 
