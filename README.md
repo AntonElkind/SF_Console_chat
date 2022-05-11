@@ -1,5 +1,10 @@
 # Console chat
 #### Skill Factory Console chat final project
+##### Project state after module 20
++ Added local host server application (log receiver)
++ Added client implementation to the chat (log writer)
+  + Note: server app should be started BEFORE the chat  
+
 ##### Project state after module 16
 + The custom container has been replaced with a <vector> for mailboxes
 + The custom container has been replaced with an <unordered_map> for chat members
